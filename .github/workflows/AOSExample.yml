@@ -24,7 +24,7 @@ jobs:
     steps:
       - name: Create Package
         #if: matrix.os == 'ubuntu-latest'
-        run: dotnet new console --name ${{ github.event.repository.name }} --no-restore
+        run: dotnet new console --name ${{ github.event.repository.name }}
       - name: print details
         run: | 
             pwd
