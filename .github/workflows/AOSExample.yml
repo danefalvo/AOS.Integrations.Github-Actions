@@ -1,5 +1,3 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Github Actions Area of Speciality
 
 env:
@@ -75,10 +73,9 @@ jobs:
         packages: |
           '<packageId1>'
         version: '<versionofpackages>'
-    - uses: actions/checkout@v2
 
     - name: Run a runbook in Octopus Deploy 🐙
-    - uses: OctopusDeploy/run-runbook-action@v2
+      uses: OctopusDeploy/run-runbook-action@v2
       with:
         environments: 'Test Environment'
         project: 'Test Project'
