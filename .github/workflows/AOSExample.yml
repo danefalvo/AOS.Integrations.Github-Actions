@@ -41,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: nupkg
-          path: src/$PROJECT_NAME/$PROJECT_NAME/bin/Release/*.nupkg
+          path: ./$PROJECT_NAME/$PROJECT_NAME/bin/Release/*.nupkg
 
 
   # This workflow contains multiple jobs starting with "push_a_package"
