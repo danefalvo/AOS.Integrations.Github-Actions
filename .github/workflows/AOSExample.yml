@@ -48,14 +48,17 @@ jobs:
         with:
           name: nupkg
           path: ./${{ github.event.repository.name }}/bin/Release/*.nupkg
+      
+      - name: Move Artifact
+        run: mv ./${{ github.event.repository.name }}/bin/Release/*.nupkg ./package/
           
       - name: Commit Package
         run: |
           pwd
-          git add ./${{ github.event.repository.name }}/bin/Release/*.nupkg
+          git add ./package/*.nupkg
           git config --global user.name 'Dane Falvo'
           git config --global user.email 'danefalvo@gmail.com'
-          git commit -am "Automated report"
+          git commit -am "Package Upload"
           git push
 
 
