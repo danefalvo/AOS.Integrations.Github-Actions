@@ -16,19 +16,20 @@ on:
 jobs:
 
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ ubuntu-latest, windows-latest]
+    runs-on: ubuntu-latest
+#    runs-on: ${{ matrix.os }}
+#    strategy:
+#      matrix:
+#        os: [ ubuntu-latest, windows-latest]
     steps:
       - name: Create Package
-        if: matrix.os == 'ubuntu-latest'
-        run: dotnet new console --name $PROJECT_NAME --no-restore
+        #if: matrix.os == 'ubuntu-latest'
+        run: dotnet new console --name {{ $PROJECT_NAME }} --no-restore
       - name: Pack
-        if: matrix.os == 'ubuntu-latest'
-        run: dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=1.1.$GITHUB_RUN_ATTEMPT src/$PROJECT_NAME/$PROJECT_NAME.*proj      
+        #if: matrix.os == 'ubuntu-latest'
+        run: dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=1.1.{{ $GITHUB_RUN_ATTEMPT }}src/$PROJECT_NAME/$PROJECT_NAME.*proj      
       - name: Upload Artifact
-        if: matrix.os == 'ubuntu-latest'
+        #if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v2
         with:
           name: nupkg
