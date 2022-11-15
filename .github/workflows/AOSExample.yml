@@ -13,23 +13,45 @@ on:
   push:
     branches: [ "trigger" ]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  push a package:
+
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest]
+    steps:
+      - name: Create Package
+        if: matrix.os == 'ubuntu-latest'
+        run: dotnet new console 
+      - name: Pack
+        if: matrix.os == 'ubuntu-latest'
+        run: dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=$GITHUB_RUN_ID       - name: Upload Artifact
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v2
+        with:
+          name: nupkg
+          path: ./${{ env.PROJECT_NAME }}/bin/Release/*.nupkg
+
+
+  # This workflow contains multiple jobs starting with "push_a_package"
+  push_a_package:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-  steps:
+    steps:
+    - name: checkout_repository
+      uses: actions/checkout@v3
+      with:
+          version: 'latest'
+    
     - name: Install Octopus CLI 🐙
       uses: OctopusDeploy/install-octopus-cli-action@v1
       with:
         version: 'latest'
 
     - name: Push a package to Octopus Deploy 🐙
-      uses: actions/checkout@v3, OctopusDeploy/push-package-action@v2
+      uses: OctopusDeploy/push-package-action@v2
       with:
         packages: |
           package1.tar.gz
@@ -37,7 +59,9 @@ jobs:
           packages/**/*.
 
 
-
+  do_things_with_a_project:
+    runs-on: ubuntu-latest
+    steps:
     - name: Create a release in Octopus Deploy 🐙
       uses: OctopusDeploy/create-release-action@v2
       with:
