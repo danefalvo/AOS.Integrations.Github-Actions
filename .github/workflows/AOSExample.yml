@@ -27,7 +27,7 @@ jobs:
         run: dotnet new console --name ${{ github.event.repository.name }} --no-restore
       - name: Pack
         #if: matrix.os == 'ubuntu-latest'
-        run: dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=1.1.{{ $GITHUB_RUN_ATTEMPT }}src/${{ github.event.repository.name }}/${{ github.event.repository.name }}.*proj      
+        run: dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=1.1.{{ github.run_attempt	}}src/${{ github.event.repository.name }}/${{ github.event.repository.name }}.*proj      
       - name: Upload Artifact
         #if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v2
