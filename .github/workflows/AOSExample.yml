@@ -62,6 +62,7 @@ jobs:
 
     - name: Commit Package
       run: |
+          pwd
           git config --global user.name 'Dane Falvo'
           git config --global user.email 'danefalvo@gmail.com'
           git commit -am "Automated report"
