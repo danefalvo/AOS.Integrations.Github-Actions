@@ -48,6 +48,14 @@ jobs:
         with:
           name: nupkg
           path: ./${{ github.event.repository.name }}/bin/Release/*.nupkg
+          
+      - name: Commit Package
+        run: |
+          pwd
+          git config --global user.name 'Dane Falvo'
+          git config --global user.email 'danefalvo@gmail.com'
+          git commit -am "Automated report"
+          git push
 
 
   # This workflow contains multiple jobs starting with "push_a_package"
@@ -61,13 +69,7 @@ jobs:
       with:
         version: 'latest'
 
-    - name: Commit Package
-      run: |
-          pwd
-          git config --global user.name 'Dane Falvo'
-          git config --global user.email 'danefalvo@gmail.com'
-          git commit -am "Automated report"
-          git push
+
 
     - name: Push a package to Octopus Deploy 🐙
       uses: OctopusDeploy/push-package-action@v2
