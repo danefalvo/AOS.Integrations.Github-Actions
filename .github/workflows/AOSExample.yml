@@ -52,6 +52,7 @@ jobs:
       - name: Commit Package
         run: |
           pwd
+          git add ./${{ github.event.repository.name }}/bin/Release/*.nupkg
           git config --global user.name 'Dane Falvo'
           git config --global user.email 'danefalvo@gmail.com'
           git commit -am "Automated report"
