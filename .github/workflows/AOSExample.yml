@@ -60,6 +60,13 @@ jobs:
       with:
         version: 'latest'
 
+    - name: Commit Package
+      run: |
+          git config --global user.name 'Dane Falvo'
+          git config --global user.email 'danefalvo@gmail.com'
+          git commit -am "Automated report"
+          git push
+
     - name: Push a package to Octopus Deploy 🐙
       uses: OctopusDeploy/push-package-action@v2
       with:
@@ -67,6 +74,8 @@ jobs:
           package1.tar.gz
           package2.zip
           packages/**/*.
+
+
 
 
   do_things_with_a_project:
