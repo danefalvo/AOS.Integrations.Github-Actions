@@ -1,0 +1,59 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Github Actions Area of Speciality
+
+env:
+  OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}
+  OCTOPUS_HOST: ${{ secrets.OCTOPUS_HOST }}
+  OCTOPUS_SPACE: 'Dane'      
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "trigger" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  push a package:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+  steps:
+    - name: Install Octopus CLI 🐙
+      uses: OctopusDeploy/install-octopus-cli-action@v1
+      with:
+        version: 'latest'
+
+    - name: Push a package to Octopus Deploy 🐙
+      uses: actions/checkout@v3, OctopusDeploy/push-package-action@v2
+      with:
+        packages: |
+          package1.tar.gz
+          package2.zip
+          packages/**/*.
+
+
+
+    - name: Create a release in Octopus Deploy 🐙
+      uses: OctopusDeploy/create-release-action@v2
+      with:
+        project: 'MyProject'
+
+    - name: Push build information to Octopus Deploy 🐙
+      uses: OctopusDeploy/push-build-information-action@v1
+      with:
+        packages: |
+          '<packageId1>'
+        version: '<versionofpackages>'
+    - uses: actions/checkout@v2
+
+    - name: Run a runbook in Octopus Deploy 🐙
+    - uses: OctopusDeploy/run-runbook-action@v2
+      with:
+        environments: 'Test Environment'
+        project: 'Test Project'
+        runbook: 'Test Runbook'
