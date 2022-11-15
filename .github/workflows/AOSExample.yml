@@ -31,7 +31,7 @@ jobs:
             ls -a
       - name: Pack
         #if: matrix.os == 'ubuntu-latest'
-        run: dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=1.1.${{ github.run_attempt }} *.csproj  
+        run: dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=1.1.${{ github.run_attempt }} ./*.csproj  
       - name: print details
         run: | 
             pwd
