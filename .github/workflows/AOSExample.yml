@@ -37,6 +37,7 @@ jobs:
 
   # This workflow contains multiple jobs starting with "push_a_package"
   push_a_package:
+    needs: build
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     steps:
@@ -60,6 +61,7 @@ jobs:
 
 
   do_things_with_a_project:
+    needs: push_a_package
     runs-on: ubuntu-latest
     steps:
     - name: Create a release in Octopus Deploy 🐙
