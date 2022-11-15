@@ -24,10 +24,10 @@ jobs:
     steps:
       - name: Create Package
         #if: matrix.os == 'ubuntu-latest'
-        run: dotnet new console --name ${{ github.event.repository.name }} --no-restore
+        run: dotnet new console --name ${{ github.event.repository.name }} --no-restore -v d
       - name: Pack
         #if: matrix.os == 'ubuntu-latest'
-        run: dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=1.1.${{ github.run_attempt	}} src/${{ github.event.repository.name }}/${{ github.event.repository.name }}.*proj      
+        run: dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=1.1.${{ github.run_attempt	}} src/${{ github.event.repository.name }}/${{ github.event.repository.name }}.csproj  -v d    
       - name: Upload Artifact
         #if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v2
