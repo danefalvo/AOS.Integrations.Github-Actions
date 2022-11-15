@@ -25,6 +25,10 @@ jobs:
       - name: Create Package
         #if: matrix.os == 'ubuntu-latest'
         run: dotnet new console --name ${{ github.event.repository.name }} --no-restore
+      - name: print details
+        run: | 
+            pwd
+            ls -a
       - name: Pack
         #if: matrix.os == 'ubuntu-latest'
         run: dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=1.1.${{ github.run_attempt }} src/${{ github.event.repository.name }}/${{ github.event.repository.name }}.csproj  
