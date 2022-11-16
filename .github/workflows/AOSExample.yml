@@ -17,7 +17,6 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    environment: AOS Example
 #    runs-on: ${{ matrix.os }}
 #    strategy:
 #      matrix:
@@ -41,22 +40,16 @@ jobs:
       - name: Pack
         #if: matrix.os == 'ubuntu-latest'
         run: dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=${{ steps.bump_version.outputs.next-version }} ./${{ github.event.repository.name }}/*.csproj 
-      - name: print details
-        run: | 
-            pwd
-            ls -a
       - name: Upload Artifact
         #if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v2
         with:
           name: nupkg
           path: ./${{ github.event.repository.name }}/bin/Release/*.nupkg
-      
       - name: Move Artifact
         run: |
           mkdir -p ./package/
           mv ./${{ github.event.repository.name }}/bin/Release/*.nupkg ./package/
-          
       - name: Commit Package
         run: |
           pwd
@@ -70,16 +63,21 @@ jobs:
   # This workflow contains multiple jobs starting with "push_a_package"
   push_a_package:
     needs: build
+    environment: AOS Example
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     steps:
     - name: Install Octopus CLI 🐙
       uses: OctopusDeploy/install-octopus-cli-action@v1
+      env:
+        OCTOPUS_API_KEY: ${{ secrets.OCTO_API_KEY }}
+        OCTOPUS_HOST: ${{ secrets.SERVERURL }}
+        OCTOPUS_SPACE: 'Spaces-1'
       with:
         version: '*'
 
     - name: list-octopusdeploy-deployments
-      run: octo list-deployments --server=${{ env.serverURL }} --apiKey=${{ env.OCTOPUS_API_KEY }}
+      run: octo list-deployments --server=${{ env.OCTOPUS_HOST }} --apiKey=${{ env.OCTOPUS_API_KEY }}
     
 
   do_things_with_a_project:
