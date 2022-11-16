@@ -74,7 +74,7 @@ jobs:
 
     - name: list-octopusdeploy-deployments
       run: |
-        $projects = octo list-deployments --server='${{ env.OCTOPUS_HOST }}' --apiKey='${{ env.OCTOPUS_API_KEY }}'
+        $projects = octo list-deployments --server='${{ env.OCTOPUS_CLI_SERVER }}' --apiKey='${{ env.OCTOPUS_API_KEY }}'
         $projects
         shell: pwsh  
 
