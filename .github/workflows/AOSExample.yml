@@ -74,8 +74,8 @@ jobs:
 
     - name: list-octopusdeploy-deployments
       run: |
-        $variable = octo list-deployments --server=${{ env.OCTOPUS_HOST }} --apiKey=${{ env.OCTOPUS_API_KEY }}
-        $variable.Project
+        projects=octo list-deployments --server=${{ env.OCTOPUS_HOST }} --apiKey=${{ env.OCTOPUS_API_KEY }}
+        echo $projects
 
   do_things_with_a_project:
     needs: push_a_package
