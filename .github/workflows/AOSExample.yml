@@ -76,13 +76,10 @@ jobs:
       uses: OctopusDeploy/install-octopus-cli-action@v1
       with:
         version: '*'
+
     - name: list-octopusdeploy-deployments
-    run:
-      octo list-deployments --server=${{ env.serverURL }} --apiKey=${{ secrets.apiKey }}
-    - name: Push
-        uses: OctopusDeploy/push-package-action@v2
-        with:
-          packages: ${{ github.event.repository.name }}.${{ steps.bump_version.outputs.next-version }}
+      run: octo list-deployments --server=${{ env.serverURL }} --apiKey=${{ secrets.apiKey }}
+    
 
   do_things_with_a_project:
     needs: push_a_package
