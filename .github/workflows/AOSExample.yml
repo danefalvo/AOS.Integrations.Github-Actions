@@ -74,8 +74,11 @@ jobs:
 
     - name: list-octopusdeploy-deployments
       run: |
-        $projects = octo list-deployments --server='${{ env.OCTOPUS_CLI_SERVER }}' --apiKey='${{ env.OCTOPUS_API_KEY }}'
-        $projects
+        VARIABLE="\$projects = octo list-deployments --server='\${{ env.OCTOPUS_CLI_SERVER }}' --apiKey='\${{ env.OCTOPUS_API_KEY }}'"
+        echo ${VARIABLE} > project.ps1
+        VARIABLE="\$projects.name"
+        echo ${VARIABLE} >> project.ps1
+        pwsh ./project.ps1
         shell: pwsh  
 
   do_things_with_a_project:
