@@ -74,11 +74,14 @@ jobs:
 
     - name: list-octopusdeploy-deployments
       run: |
-        VARIABLE="\$projects = octo list-deployments --server='\${{ env.OCTOPUS_CLI_SERVER }}' --apiKey='\${{ env.OCTOPUS_API_KEY }}'"
+        VARIABLE="\$projects = dotnet octo list-deployments --server='\${{ env.OCTOPUS_CLI_SERVER }}' --apiKey='\${{ env.OCTOPUS_API_KEY }}'"
         echo ${VARIABLE} > ./project.ps1
         VARIABLE="\$projects.name"
         echo ${VARIABLE} >> ./project.ps1
+        dotnet tool install Octopus.DotNet.Cli --global --version 4.39.1
         sudo pwsh ./project.ps1
+
+
       # shell: pwsh  
 
   do_things_with_a_project:
