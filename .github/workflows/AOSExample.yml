@@ -86,9 +86,7 @@ jobs:
       uses: OctopusDeploy/push-package-action@v2
       with:
         packages: |
-          package1.tar.gz
-          package2.zip
-          packages/**/*.
+          ${{ github.event.repository.name }}.${{ steps.bump_version.outputs.next-version }}
 
 
 
