@@ -1,7 +1,7 @@
 name: Github Actions Area of Speciality
 
 env:
-  OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}
+  OCTOPUS_API_KEY: ${{ secrets.OCTO_API_KEY }}
   OCTOPUS_CLI_SERVER: ${{ secrets.OCTOPUS_HOST }}
   OCTOPUS_SPACE: 'Dane'      
 
@@ -69,10 +69,6 @@ jobs:
     steps:
     - name: Install Octopus CLI 🐙
       uses: OctopusDeploy/install-octopus-cli-action@v1
-      env:
-        OCTOPUS_API_KEY: ${{ secrets.OCTO_API_KEY }}
-        OCTOPUS_HOST: ${{ secrets.SERVERURL }}
-        OCTOPUS_SPACE: 'Spaces-1'
       with:
         version: '*'
 
