@@ -79,7 +79,7 @@ jobs:
         version: '*'
 
     - name: list-octopusdeploy-deployments
-      run: octo list-deployments --server=${{ OCTOPUS_HOST }} --apiKey=${{ OCTOPUS_API_KEY }}
+      run: octo list-deployments --server=${{ env.OCTOPUS_HOST }} --apiKey=${{ env.OCTOPUS_API_KEY }}
     
 
   do_things_with_a_project:
