@@ -78,7 +78,7 @@ jobs:
         echo ${VARIABLE} > ./project.ps1
         VARIABLE="\$projects.name"
         echo ${VARIABLE} >> ./project.ps1
-        ./project.ps1
+        sudo ./project.ps1
         shell: pwsh  
 
   do_things_with_a_project:
