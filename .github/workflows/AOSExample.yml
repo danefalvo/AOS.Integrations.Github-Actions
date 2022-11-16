@@ -2,7 +2,7 @@ name: Github Actions Area of Speciality
 
 env:
   OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API_KEY }}
-  OCTOPUS_HOST: ${{ secrets.OCTOPUS_HOST }}
+  OCTOPUS_CLI_SERVER: ${{ secrets.OCTOPUS_HOST }}
   OCTOPUS_SPACE: 'Dane'      
 
 # Controls when the workflow will run
@@ -79,7 +79,7 @@ jobs:
         version: '*'
 
     - name: list-octopusdeploy-deployments
-      run: octo list-deployments --server=${{ env.OCTOPUS_HOST }} --apiKey=${{ env.OCTOPUS_API_KEY }}
+      run: octo list-deployments --apiKey=${{ env.OCTOPUS_API_KEY }}
     
 
   do_things_with_a_project:
