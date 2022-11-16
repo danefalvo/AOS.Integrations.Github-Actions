@@ -17,6 +17,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    environment: AOS Example
 #    runs-on: ${{ matrix.os }}
 #    strategy:
 #      matrix:
@@ -78,7 +79,7 @@ jobs:
         version: '*'
 
     - name: list-octopusdeploy-deployments
-      run: octo list-deployments --server=${{ env.serverURL }} --apiKey=${{ secrets.apiKey }}
+      run: octo list-deployments --server=${{ OCTOPUS_HOST }} --apiKey=${{ OCTOPUS_API_KEY }}
     
 
   do_things_with_a_project:
