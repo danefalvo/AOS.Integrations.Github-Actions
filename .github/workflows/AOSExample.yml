@@ -34,9 +34,6 @@ jobs:
         with:
           current-version: '1.1.0'
           version-fragment: 'feature'
-      - name: Do something with your bumped release version
-        run: echo ${{ steps.bump_version.outputs.next-version }}
-        # will print 2.12.0    
       - name: Create Package
         #if: matrix.os == 'ubuntu-latest'
         run: dotnet new console --name ${{ github.event.repository.name }}
@@ -78,18 +75,14 @@ jobs:
     - name: Install Octopus CLI 🐙
       uses: OctopusDeploy/install-octopus-cli-action@v1
       with:
-        version: 'latest'
-
-
-
-    - name: Push a package to Octopus Deploy 🐙
-      uses: OctopusDeploy/push-package-action@v2
-      with:
-        packages: |
-          ${{ github.event.repository.name }}.${{ steps.bump_version.outputs.next-version }}
-
-
-
+        version: '*'
+    - name: list-octopusdeploy-deployments
+    run:
+      octo list-deployments --server=${{ env.serverURL }} --apiKey=${{ secrets.apiKey }}
+    - name: Push
+        uses: OctopusDeploy/push-package-action@v2
+        with:
+          packages: ${{ github.event.repository.name }}.${{ steps.bump_version.outputs.next-version }}
 
   do_things_with_a_project:
     needs: push_a_package
