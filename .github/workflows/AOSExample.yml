@@ -28,6 +28,7 @@ jobs:
         with:
           version: 'latest'
       - name: Bump release version
+      # https://github.com/marketplace/actions/increment-semantic-version
         id: bump_version
         uses: christian-draeger/increment-semantic-version@1.0.3
         with:
