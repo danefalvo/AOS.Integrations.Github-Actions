@@ -27,17 +27,21 @@ jobs:
         uses: actions/checkout@v3
         with:
           version: 'latest'
-          
+      - name: Bump release version
+        id: bump_version
+        uses: christian-draeger/increment-semantic-version@1.0.3
+        with:
+          current-version: '1.1.0'
+          version-fragment: 'feature'
+      - name: Do something with your bumped release version
+        run: echo ${{ steps.bump_version.outputs.next-version }}
+        # will print 2.12.0    
       - name: Create Package
         #if: matrix.os == 'ubuntu-latest'
         run: dotnet new console --name ${{ github.event.repository.name }}
-      - name: print details
-        run: | 
-            pwd
-            ls -a
       - name: Pack
         #if: matrix.os == 'ubuntu-latest'
-        run: dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=1.1.${{ github.run_attempt }} ./${{ github.event.repository.name }}/*.csproj 
+        run: dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=${{ steps.bump_version.outputs.next-version }} ./${{ github.event.repository.name }}/*.csproj 
       - name: print details
         run: | 
             pwd
