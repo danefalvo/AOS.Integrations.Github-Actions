@@ -51,7 +51,7 @@ jobs:
           mkdir -p ./package/
           mv ./${{ github.event.repository.name }}/bin/Release/*.nupkg ./package/
       - name: Set env
-        run: echo "GITHUB_RUNTIME_PACKAGE=$(ls ./packages/*.nupkg | head -n 1) >> $GITHUB_ENV
+        run: echo "GITHUB_RUNTIME_PACKAGE=$(ls ./packages/*.nupkg | head -n 1)" >> $GITHUB_ENV
       - name: test
         run: echo $GITHUB_RUNTIME_PACKAGE
       - name: Commit Package
