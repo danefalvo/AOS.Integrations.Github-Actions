@@ -90,9 +90,17 @@ jobs:
       # shell: pwsh  
 
   do_things_with_a_project:
+    
     needs: push_a_package
     runs-on: ubuntu-latest
     steps:
+  
+    - name: Install Octopus CLI 🐙
+      uses: OctopusDeploy/install-octopus-cli-action@v1
+      with:
+        version: '*'
+    
+
     - name: Create a release in Octopus Deploy 🐙
       uses: OctopusDeploy/create-release-action@v2
       with:
