@@ -93,6 +93,7 @@ jobs:
     
     needs: push_a_package
     runs-on: ubuntu-latest
+    environment: AOS Example
     steps:
   
     - name: Install Octopus CLI 🐙
