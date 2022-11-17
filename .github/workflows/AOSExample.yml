@@ -106,6 +106,7 @@ jobs:
       uses: OctopusDeploy/create-release-action@v2
       with:
         project: 'Integrations.Github Actions'
+        gitref: 'main'
 
     - name: Push build information to Octopus Deploy 🐙
       uses: OctopusDeploy/push-build-information-action@v1
