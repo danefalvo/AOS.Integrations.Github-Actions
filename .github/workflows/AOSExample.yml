@@ -74,13 +74,18 @@ jobs:
 
     - name: list-octopusdeploy-deployments
       run: |
+        
         # octo list-deployments --server=${{ env.OCTOPUS_CLI_SERVER }} --apiKey=${{ env.OCTOPUS_API_KEY }}      
-        # variable=$(octo list-deployments --server=${{ env.OCTOPUS_CLI_SERVER }} --apiKey=${{ env.OCTOPUS_API_KEY }})
-        PWSHScript="\$RESULTS = octo list-deployments --server="${{ env.OCTOPUS_CLI_SERVER }}" --apiKey="${{ env.OCTOPUS_API_KEY }}
-        echo ${PWSHScript} > ./project.ps1
-        PWSHScript="\$RESULTS"
-        echo ${PWSHScript} >> ./project.ps1
-        sudo pwsh ./project.ps1
+        sudo apt-get install jq
+        DeploymentList=$(octo list-deployments --server=${{ env.OCTOPUS_CLI_SERVER }} --apiKey=${{ env.OCTOPUS_API_KEY }})
+        echo ${DeploymentList}
+        echo "\${DeploymentList | jq '.[]'
+
+      # PWSHScript="\$RESULTS = octo list-deployments --server="${{ env.OCTOPUS_CLI_SERVER }}" --apiKey="${{ env.OCTOPUS_API_KEY }}
+      # echo ${PWSHScript} > ./project.ps1
+      # PWSHScript="\$RESULTS"
+      # echo ${PWSHScript} >> ./project.ps1
+      # sudo pwsh ./project.ps1
       # VARIABLE="\$projects = dotnet-octo list-deployments --server='\${{ env.OCTOPUS_CLI_SERVER }}' --apiKey='\${{ env.OCTOPUS_API_KEY }}'"
       # echo ${VARIABLE} > ./project.ps1
       # VARIABLE="\$projects.name"
