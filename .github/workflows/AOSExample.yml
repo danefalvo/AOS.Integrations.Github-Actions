@@ -114,7 +114,7 @@ jobs:
         packages: |
           './${{ github.event.repository.name }}/bin/Release/*.nupkg'
         version: 'latest'
-        git_ref: 'main'
+        branch: 'main'
 
 
     - name: Run a runbook in Octopus Deploy 🐙
