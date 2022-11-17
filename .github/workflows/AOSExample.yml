@@ -79,7 +79,7 @@ jobs:
         sudo apt-get install jq
         DeploymentList=$(octo list-deployments --server=${{ env.OCTOPUS_CLI_SERVER }} --apiKey=${{ env.OCTOPUS_API_KEY }})
         echo ${DeploymentList}
-        echo "\${DeploymentList | jq '.[]'
+        echo ${DeploymentList | jq '.[]'
 
       # PWSHScript="\$RESULTS = octo list-deployments --server="${{ env.OCTOPUS_CLI_SERVER }}" --apiKey="${{ env.OCTOPUS_API_KEY }}
       # echo ${PWSHScript} > ./project.ps1
