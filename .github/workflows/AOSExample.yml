@@ -105,14 +105,14 @@ jobs:
     - name: Create a release in Octopus Deploy 🐙
       uses: OctopusDeploy/create-release-action@v2
       with:
-        project: 'MyProject'
+        project: 'Integrations.Github Actions'
 
     - name: Push build information to Octopus Deploy 🐙
       uses: OctopusDeploy/push-build-information-action@v1
       with:
         packages: |
-          '<packageId1>'
-        version: '<versionofpackages>'
+          './${{ github.event.repository.name }}/bin/Release/*.nupkg'
+        version: 'latest'
 
     - name: Run a runbook in Octopus Deploy 🐙
       uses: OctopusDeploy/run-runbook-action@v2
