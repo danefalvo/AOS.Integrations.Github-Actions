@@ -25,8 +25,8 @@ jobs:
     
       - name: checkout_repository
         uses: actions/checkout@v3
-        with:
-          version: 'latest'
+      #  with:
+      #    version: 'latest'
       - name: Bump release version
       # https://github.com/marketplace/actions/increment-semantic-version
         id: bump_version
@@ -39,7 +39,7 @@ jobs:
         run: dotnet new console --name ${{ github.event.repository.name }}
       - name: Pack
         #if: matrix.os == 'ubuntu-latest'
-        run: dotnet pack -v normal -c Release --no-restore --include-symbols --include-source -p:PackageVersion=${{ steps.bump_version.outputs.next-version }} ./${{ github.event.repository.name }}/*.csproj 
+        run: dotnet pack -v normal -c Release --no-restore --include-source -p:PackageVersion=${{ steps.bump_version.outputs.next-version }} ./${{ github.event.repository.name }}/*.csproj 
       - name: Upload Artifact
         #if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v2
@@ -50,6 +50,10 @@ jobs:
         run: |
           mkdir -p ./package/
           mv ./${{ github.event.repository.name }}/bin/Release/*.nupkg ./package/
+      - name: Set env
+        run: echo "GITHUB_RUNTIME_PACKAGE=$(ls ./packages/*.nupkg | head -n 1) >> $GITHUB_ENV
+      - name: test
+        run: echo $GITHUB_RUNTIME_PACKAGE
       - name: Commit Package
         run: |
           pwd
