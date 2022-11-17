@@ -2,7 +2,7 @@ name: Github Actions Area of Speciality
 
 env:
   OCTOPUS_API_KEY: ${{ secrets.OCTO_API_KEY }}
-  OCTOPUS_CLI_SERVER: ${{ secrets.OCTOPUS_HOST }}
+  OCTOPUS_HOST: ${{ secrets.OCTOPUS_HOST }}
   OCTOPUS_SPACE: 'Dane'      
 
 # Controls when the workflow will run
@@ -74,15 +74,15 @@ jobs:
 
     - name: list-octopusdeploy-deployments
       run: |      
-        DeploymentList=$(octo list-deployments --server=${{ env.OCTOPUS_CLI_SERVER }} --apiKey=${{ env.OCTOPUS_API_KEY }} --outputformat=json)
+        DeploymentList=$(octo list-deployments --server=${{ env.OCTOPUS_HOST }} --apiKey=${{ env.OCTOPUS_API_KEY }} --outputformat=json)
         echo ${DeploymentList} | jq '.[].Project.Id'
-      # octo list-deployments --server=${{ env.OCTOPUS_CLI_SERVER }} --apiKey=${{ env.OCTOPUS_API_KEY }}      
-      # PWSHScript="\$RESULTS = octo list-deployments --server="${{ env.OCTOPUS_CLI_SERVER }}" --apiKey="${{ env.OCTOPUS_API_KEY }}
+      # octo list-deployments --server=${{ env.OCTOPUS_HOST }} --apiKey=${{ env.OCTOPUS_API_KEY }}      
+      # PWSHScript="\$RESULTS = octo list-deployments --server="${{ env.OCTOPUS_HOST }}" --apiKey="${{ env.OCTOPUS_API_KEY }}
       # echo ${PWSHScript} > ./project.ps1
       # PWSHScript="\$RESULTS"
       # echo ${PWSHScript} >> ./project.ps1
       # sudo pwsh ./project.ps1
-      # VARIABLE="\$projects = dotnet-octo list-deployments --server='\${{ env.OCTOPUS_CLI_SERVER }}' --apiKey='\${{ env.OCTOPUS_API_KEY }}'"
+      # VARIABLE="\$projects = dotnet-octo list-deployments --server='\${{ env.OCTOPUS_HOST }}' --apiKey='\${{ env.OCTOPUS_API_KEY }}'"
       # echo ${VARIABLE} > ./project.ps1
       # VARIABLE="\$projects.name"
       # echo ${VARIABLE} >> ./project.ps1
