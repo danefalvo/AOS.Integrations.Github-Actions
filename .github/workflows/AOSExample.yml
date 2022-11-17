@@ -73,12 +73,10 @@ jobs:
         version: '*'
 
     - name: list-octopusdeploy-deployments
-      run: |
-        
-        # octo list-deployments --server=${{ env.OCTOPUS_CLI_SERVER }} --apiKey=${{ env.OCTOPUS_API_KEY }}      
-        DeploymentList=$(octo list-deployments --server=${{ env.OCTOPUS_CLI_SERVER }} --apiKey=${{ env.OCTOPUS_API_KEY }})
+      run: |      
+        DeploymentList=$(octo list-deployments --server=${{ env.OCTOPUS_CLI_SERVER }} --apiKey=${{ env.OCTOPUS_API_KEY }} --outputformat=json)
         echo ${DeploymentList} | jq '.[]'
-
+      # octo list-deployments --server=${{ env.OCTOPUS_CLI_SERVER }} --apiKey=${{ env.OCTOPUS_API_KEY }}      
       # PWSHScript="\$RESULTS = octo list-deployments --server="${{ env.OCTOPUS_CLI_SERVER }}" --apiKey="${{ env.OCTOPUS_API_KEY }}
       # echo ${PWSHScript} > ./project.ps1
       # PWSHScript="\$RESULTS"
