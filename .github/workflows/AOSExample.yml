@@ -75,7 +75,7 @@ jobs:
     - name: list-octopusdeploy-deployments
       run: |      
         DeploymentList=$(octo list-deployments --server=${{ env.OCTOPUS_CLI_SERVER }} --apiKey=${{ env.OCTOPUS_API_KEY }} --outputformat=json)
-        echo ${DeploymentList} | jq '.[]'
+        echo ${DeploymentList} | jq '.[].Project.Id'
       # octo list-deployments --server=${{ env.OCTOPUS_CLI_SERVER }} --apiKey=${{ env.OCTOPUS_API_KEY }}      
       # PWSHScript="\$RESULTS = octo list-deployments --server="${{ env.OCTOPUS_CLI_SERVER }}" --apiKey="${{ env.OCTOPUS_API_KEY }}
       # echo ${PWSHScript} > ./project.ps1
