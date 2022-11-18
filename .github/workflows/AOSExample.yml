@@ -41,7 +41,6 @@ jobs:
         #if: matrix.os == 'ubuntu-latest'
         run: |
           dotnet new console --name ${{ github.event.repository.name }}
-          environment: AOS Example
       - name: Pack
         #if: matrix.os == 'ubuntu-latest'
         run: dotnet pack -v normal -c Release --no-restore --include-source -p:PackageVersion=${{ steps.bump_version.outputs.next-version }} ./${{ github.event.repository.name }}/*.csproj 
