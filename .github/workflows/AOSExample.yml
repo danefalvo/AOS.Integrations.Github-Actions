@@ -124,8 +124,7 @@ jobs:
     - name: Push build information to Octopus Deploy 🐙
       uses: OctopusDeploy/push-build-information-action@v1
       with:
-        packages: |
-          '$PACKAGENAME'
+        packages: '$PACKAGENAME'
         version: '$PACKAGEVERSION'
         branch: 'main'
 
