@@ -5,7 +5,6 @@ env:
   OCTOPUS_HOST: ${{ secrets.OCTOPUS_HOST }}
   OCTOPUS_CLI_SERVER: ${{ secrets.OCTOPUS_HOST }}
   PACKAGEVERSION: ${{ secrets.PACKAGEVERSION }}
-
   OCTOPUS_SPACE: 'Dane'      
   PACKAGENAME: 'Monday'
 
@@ -65,6 +64,21 @@ jobs:
           git config --global user.email 'danefalvo@gmail.com'
           git commit -am "Package Upload"
           git push
+          
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ env.PACKAGEVERSION }}
+          release_name: $PACKAGENAME
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false
 
 
   # This workflow contains multiple jobs starting with "push_a_package"
@@ -111,7 +125,7 @@ jobs:
       - name: Push a package to Octopus Deploy 🐙
         uses: OctopusDeploy/push-package-action@v2
         with:
-          packages: ./package/Monday.1.2.0.nupkg
+          packages: ./package/Monday.${{ env.PACKAGEVERSION }}.nupkg
           overwriteMode: OverwriteExisting
           
 
@@ -119,7 +133,7 @@ jobs:
         uses: OctopusDeploy/push-build-information-action@v1
         with:
           packages: ./package/Monday
-          version: 1.2.0
+          version: ${{ env.PACKAGEVERSION }}
           branch: 'main'
           
       - name: Create a release in Octopus Deploy 🐙
