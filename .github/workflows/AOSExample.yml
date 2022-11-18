@@ -34,7 +34,7 @@ jobs:
       
       - name: Get the version
         id: get_version
-        run: echo ::save-state name=VERSION::${GITHUB_REF/refs\/tags\//}
+        run: echo "name=VERSION::${GITHUB_REF/refs\/tags\//}" >> $GITHUB_STATE
       - name: Bump release version
       # https://github.com/marketplace/actions/increment-semantic-version
         id: bump_version
