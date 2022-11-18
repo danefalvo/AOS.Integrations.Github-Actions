@@ -6,6 +6,7 @@ env:
   OCTOPUS_CLI_SERVER: ${{ secrets.OCTOPUS_HOST }}
 
   OCTOPUS_SPACE: 'Dane'      
+  PACKAGENAME: Monday
 
 # Controls when the workflow will run
 on:
@@ -40,20 +41,21 @@ jobs:
       - name: Create Package
         #if: matrix.os == 'ubuntu-latest'
         run: |
-          dotnet new console --name ${{ github.event.repository.name }}
+          dotnet new console --name ${{ PACKAGENAME }}
       - name: Pack
         #if: matrix.os == 'ubuntu-latest'
-        run: dotnet pack -v normal -c Release --no-restore --include-source -p:PackageVersion=${{ steps.bump_version.outputs.next-version }} ./${{ github.event.repository.name }}/*.csproj 
+        run: dotnet pack -v normal -c Release --no-restore --include-source -p:PackageVersion=${{ steps.bump_version.outputs.next-version }} ./${{ PACKAGENAME }}/*.csproj 
       - name: Upload Artifact
         #if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@v3
         with:
           name: nupkg
-          path: ./${{ github.event.repository.name }}/bin/Release/*.nupkg
+          path: ./${{ PACKAGENAME }}/bin/Release/*.nupkg
+          #path: ./${{ github.event.repository.name }}/bin/Release/*.nupkg
       - name: Move Artifact
         run: |
           mkdir -p ./package/
-          mv ./${{ github.event.repository.name }}/bin/Release/*.nupkg ./package/
+          mv ./${{ PACKAGENAME }}/bin/Release/*.nupkg ./package/
       - name: Set env
         run: |
           GITHUB_RUNTIME_PACKAGE_VERSION=$(ls ./package/*.nupkg | head -n 1)
@@ -123,8 +125,8 @@ jobs:
       uses: OctopusDeploy/push-build-information-action@v1
       with:
         packages: |
-          '${{ github.event.repository.name }}'
-        version: 'latest'
+          '${{ PACKAGENAME }}'
+        version: '{{ $PACKAGEVERSION }}'
         branch: 'main'
 
 
