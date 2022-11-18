@@ -111,6 +111,8 @@ jobs:
         uses: OctopusDeploy/push-package-action@v2
         with:
           packages: ./package/Monday.1.2.0.nupkg
+          overwriteMode: OverwriteExisting
+          
 
       - name: Push build information to Octopus Deploy 🐙
         uses: OctopusDeploy/push-build-information-action@v1
