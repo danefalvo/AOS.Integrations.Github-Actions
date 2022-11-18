@@ -110,7 +110,7 @@ jobs:
       - name: Push a package to Octopus Deploy 🐙
         uses: OctopusDeploy/push-package-action@v2
         with:
-          packages: $PACKAGENAME
+          packages: ./$PACKAGENAME
 
       - name: Push build information to Octopus Deploy 🐙
         uses: OctopusDeploy/push-build-information-action@v1
