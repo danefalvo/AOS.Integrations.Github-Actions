@@ -107,6 +107,10 @@ jobs:
         with:
           version: '*'
     
+      - name: Push a package to Octopus Deploy 🐙
+        uses: OctopusDeploy/push-package-action@v2
+        with:
+          packages: $PACKAGENAME
 
       - name: Push build information to Octopus Deploy 🐙
         uses: OctopusDeploy/push-build-information-action@v1
