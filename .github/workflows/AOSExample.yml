@@ -101,30 +101,30 @@ jobs:
     runs-on: ubuntu-latest
     environment: AOS Example
     steps:
-  
-    - name: Install Octopus CLI 🐙
-      uses: OctopusDeploy/install-octopus-cli-action@v1
-      with:
-        version: '*'
+      - uses: actions/checkout@v2
+      - name: Install Octopus CLI 🐙
+        uses: OctopusDeploy/install-octopus-cli-action@v1
+        with:
+          version: '*'
     
 
-    - name: Create a release in Octopus Deploy 🐙
-      uses: OctopusDeploy/create-release-action@v2
-      with:
-        project: 'Integrations.Github Actions'
-        git_ref: 'main'
+      - name: Push build information to Octopus Deploy 🐙
+        uses: OctopusDeploy/push-build-information-action@v1
+        with:
+          packages: $PACKAGENAME
+          version: $PACKAGEVERSION
+          branch: 'main'
+          
+      - name: Create a release in Octopus Deploy 🐙
+        uses: OctopusDeploy/create-release-action@v2
+        with:
+          project: 'Integrations.Github Actions'
+          git_ref: 'main'
 
-    - name: Push build information to Octopus Deploy 🐙
-      uses: OctopusDeploy/push-build-information-action@v1
-      with:
-        packages: $PACKAGENAME
-        version: $PACKAGEVERSION
-        branch: 'main'
 
-
-    - name: Run a runbook in Octopus Deploy 🐙
-      uses: OctopusDeploy/run-runbook-action@v2
-      with:
-        environments: 'Test Environment'
-        project: 'Test Project'
-        runbook: 'Test Runbook'
+      - name: Run a runbook in Octopus Deploy 🐙
+        uses: OctopusDeploy/run-runbook-action@v2
+        with:
+          environments: 'Test Environment'
+          project: 'Test Project'
+          runbook: 'Test Runbook'
