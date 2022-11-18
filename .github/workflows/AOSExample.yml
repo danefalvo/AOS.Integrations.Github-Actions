@@ -104,7 +104,7 @@ jobs:
     
     needs: push_a_package
     runs-on: ubuntu-latest
-    environment: AOS ExampleHI=$(echo $PackageName | grep -oE "[0-9]+.[0-9]+.[0-9]+")
+    environment: AOS Example
     steps:
   
     - name: Install Octopus CLI 🐙
