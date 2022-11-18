@@ -50,7 +50,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: nupkg
-          path: ./$PACKAGENAME/bin/Release/*.nupkg
+          path: ./${{ PACKAGENAME }}/bin/Release/*.nupkg
           #path: ./${{ github.event.repository.name }}/bin/Release/*.nupkg
       - name: Move Artifact
         run: |
