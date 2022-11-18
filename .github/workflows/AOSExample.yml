@@ -41,7 +41,7 @@ jobs:
       - name: Create Package
         #if: matrix.os == 'ubuntu-latest'
         run: |
-          dotnet new console --name ${{ PACKAGENAME }}
+          dotnet new console --name $PACKAGENAME
       - name: Pack
         #if: matrix.os == 'ubuntu-latest'
         run: dotnet pack -v normal -c Release --no-restore --include-source -p:PackageVersion=${{ steps.bump_version.outputs.next-version }} ./${{ PACKAGENAME }}/*.csproj 
@@ -55,7 +55,7 @@ jobs:
       - name: Move Artifact
         run: |
           mkdir -p ./package/
-          mv ./${{ PACKAGENAME }}/bin/Release/*.nupkg ./package/
+          mv ./$PACKAGENAME/bin/Release/*.nupkg ./package/
       - name: Set env
         run: |
           GITHUB_RUNTIME_PACKAGE_VERSION=$(ls ./package/*.nupkg | head -n 1)
