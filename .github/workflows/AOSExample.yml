@@ -6,7 +6,7 @@ env:
   OCTOPUS_CLI_SERVER: ${{ secrets.OCTOPUS_HOST }}
 
   OCTOPUS_SPACE: 'Dane'      
-  PACKAGENAME: Monday
+  PACKAGENAME: 'Monday'
 
 # Controls when the workflow will run
 on:
