@@ -4,6 +4,7 @@ env:
   OCTOPUS_API_KEY: ${{ secrets.OCTO_API_KEY }}
   OCTOPUS_HOST: ${{ secrets.OCTOPUS_HOST }}
   OCTOPUS_CLI_SERVER: ${{ secrets.OCTOPUS_HOST }}
+  PACKAGEVERSION: ${{ secrets.PACKAGEVERSION }}
 
   OCTOPUS_SPACE: 'Dane'      
   PACKAGENAME: 'Monday'
@@ -36,7 +37,7 @@ jobs:
         id: bump_version
         uses: christian-draeger/increment-semantic-version@1.0.3
         with:
-          current-version: '1.1.0'
+          current-version: $PACKAGEVERSION
           version-fragment: 'feature'
       - name: Create Package
         #if: matrix.os == 'ubuntu-latest'
