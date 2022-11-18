@@ -45,7 +45,7 @@ jobs:
         id: bump_version
         uses: christian-draeger/increment-semantic-version@1.0.3
         with:
-          current-version: ${{ env.VERSION }}
+          current-version: ${{ env.PACKAGEVERSION }}
           version-fragment: 'feature'
       - name: Create Package
         #if: matrix.os == 'ubuntu-latest'
