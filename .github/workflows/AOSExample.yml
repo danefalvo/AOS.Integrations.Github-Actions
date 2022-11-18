@@ -34,7 +34,9 @@ jobs:
       
       - name: Get the version
         id: get_version
-        run: echo "name=VERSION::${{ github.event.release.tag_name }}" >> $GITHUB_STATE
+        run: |
+          echo ${{ github.event.release.tag_name }}
+          echo "name=VERSION::${{ github.event.release.tag_name }}" >> $GITHUB_STATE
       - name: Bump release version
       # https://github.com/marketplace/actions/increment-semantic-version
         id: bump_version
