@@ -45,7 +45,7 @@ jobs:
         run: |
           echo ${{ github.event.release.tag_name }}
           VERSION=1.0.0
-          echo ${{ id }}
+          echo ${{ env.id }}
         #echo "name=VERSION::1.0.0" >> $GITHUB_STATE
           
       - name: Bump release version
