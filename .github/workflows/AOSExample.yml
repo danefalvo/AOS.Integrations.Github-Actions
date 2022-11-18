@@ -43,9 +43,9 @@ jobs:
       - name: Get the version
         id: get_version
         run: |
-          echo ${{ github.event.release.tag_name }}
-          VERSION=1.0.0
-          echo ${{ env.id }}
+          version: ${{ steps.previoustag.outputs.tag }}
+          echo ${{ env.version }}
+          echo $version
         #echo "name=VERSION::1.0.0" >> $GITHUB_STATE
           
       - name: Bump release version
