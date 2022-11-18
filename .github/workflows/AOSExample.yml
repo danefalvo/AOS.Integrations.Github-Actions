@@ -45,14 +45,7 @@ jobs:
       - name: Pack
         #if: matrix.os == 'ubuntu-latest'
         run: dotnet pack -v normal -c Release --no-restore --include-source -p:PackageVersion=${{ steps.bump_version.outputs.next-version }} ./$PACKAGENAME/*.csproj 
-      - name: Upload Artifact
-        #if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v3
-        with:
-          name: nupkg
-          path: /home/runner/work/${{ github.event.repository.name }}/${{ github.event.repository.name }}/$PACKAGENAME/bin/Release/Monday.1.2.0.nupkg
-          #path: ./${{ github.event.repository.name }}/bin/Release/*.nupkg
-      - name: Move Artifact
+      - name: Move Package
         run: |
           mkdir -p ./package/
           mv ./$PACKAGENAME/bin/Release/*.nupkg ./package/
