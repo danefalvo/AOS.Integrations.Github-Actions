@@ -1,0 +1,168 @@
+name: Github Actions Area of Speciality
+
+env:
+  OCTOPUS_API_KEY: ${{ secrets.OCTO_API_KEY }}
+  OCTOPUS_HOST: ${{ secrets.OCTOPUS_HOST }}
+  OCTOPUS_CLI_SERVER: ${{ secrets.OCTOPUS_HOST }}
+  PACKAGEVERSION: ${{ secrets.PACKAGEVERSION }}
+  VERSION: ${{ secrets.PACKAGEVERSION }}
+  OCTOPUS_SPACE: 'Dane'      
+  PACKAGENAME: 'Monday'
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "trigger" ]
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    environment: AOS Example
+#    runs-on: ${{ matrix.os }}
+#    strategy:
+#      matrix:
+#        os: [ ubuntu-latest, windows-latest]
+    steps:
+    
+      - name: checkout_repository
+        uses: actions/checkout@v3
+      #  with:
+      #    version: 'latest'
+        with:
+          fetch-depth: 0 # Required due to the way Git works, without it this action won't be able to find any or the correct tags
+      - name: 'Get Previous tag'
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+        with:
+          fallback: 1.0.0 # Optional fallback tag to use when no tag can be found
+      
+      - name: Get the version
+        id: get_version
+        run: |
+          version: ${{ steps.previoustag.outputs.tag }}
+          echo ${{ env.version }}
+          echo $version
+        #echo "name=VERSION::1.0.0" >> $GITHUB_STATE
+          
+      - name: Bump release version
+      # https://github.com/marketplace/actions/increment-semantic-version
+        id: bump_version
+        uses: christian-draeger/increment-semantic-version@1.0.3
+        with:
+          current-version: ${{ env.PACKAGEVERSION }}
+          version-fragment: 'feature'
+      - name: Create Package
+        #if: matrix.os == 'ubuntu-latest'
+        run: |
+          dotnet new console --name $PACKAGENAME
+      - name: Pack
+        #if: matrix.os == 'ubuntu-latest'
+        run: dotnet pack -v normal -c Release --no-restore --include-source -p:PackageVersion=${{ steps.bump_version.outputs.next-version }} ./$PACKAGENAME/*.csproj 
+      - name: Move Package
+        run: |
+          mkdir -p ./package/
+          mv ./$PACKAGENAME/bin/Release/*.nupkg ./package/
+      - name: Set env
+        run: |
+          GITHUB_RUNTIME_PACKAGE_VERSION=$(ls ./package/*.nupkg | head -n 1)
+          PACKAGEVERSION=$(echo $GITHUB_RUNTIME_PACKAGE_VERSION | grep -E "[0-9]+.[0-9]+.[0-9]+")
+      - name: test
+        run: echo $GITHUB_RUNTIME_PACKAGE_VERSION
+          echo $PACKAGEVERSION
+      - name: Commit Package
+        run: |
+          pwd
+          git add ./package/*.nupkg
+          git config --global user.name 'Dane Falvo'
+          git config --global user.email 'danefalvo@gmail.com'
+          git commit -am "Package Upload"
+          git push
+          
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ env.PACKAGEVERSION }}
+          release_name: ${{ env.PACKAGENAME }}
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false
+
+
+  # This workflow contains multiple jobs starting with "push_a_package"
+  push_a_package:
+    needs: build
+    environment: AOS Example
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install Octopus CLI 🐙
+      uses: OctopusDeploy/install-octopus-cli-action@v1
+      with:
+        version: '*'
+
+    - name: list-octopusdeploy-deployments
+      run: |      
+        DeploymentList=$(octo list-deployments --server=${{ env.OCTOPUS_HOST }} --apiKey=${{ env.OCTOPUS_API_KEY }} --outputformat=json)
+        echo ${DeploymentList} | jq '.[].Project.Id'
+      # octo list-deployments --server=${{ env.OCTOPUS_HOST }} --apiKey=${{ env.OCTOPUS_API_KEY }}      
+      # PWSHScript="\$RESULTS = octo list-deployments --server="${{ env.OCTOPUS_HOST }}" --apiKey="${{ env.OCTOPUS_API_KEY }}
+      # echo ${PWSHScript} > ./project.ps1
+      # PWSHScript="\$RESULTS"
+      # echo ${PWSHScript} >> ./project.ps1
+      # sudo pwsh ./project.ps1
+      # VARIABLE="\$projects = dotnet-octo list-deployments --server='\${{ env.OCTOPUS_HOST }}' --apiKey='\${{ env.OCTOPUS_API_KEY }}'"
+      # echo ${VARIABLE} > ./project.ps1
+      # VARIABLE="\$projects.name"
+      # echo ${VARIABLE} >> ./project.ps1
+      # dotnet tool install Octopus.DotNet.Cli --global --version 4.39.1
+      # shell: pwsh  
+
+  do_things_with_a_project:
+    
+    needs: push_a_package
+    runs-on: ubuntu-latest
+    environment: AOS Example
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Octopus CLI 🐙
+        uses: OctopusDeploy/install-octopus-cli-action@v1
+        with:
+          version: '*'
+    
+      - name: Push a package to Octopus Deploy 🐙
+        uses: OctopusDeploy/push-package-action@v2
+        with:
+          packages: ./package/Monday.${{ env.PACKAGEVERSION }}.nupkg
+          overwriteMode: OverwriteExisting
+          
+
+      - name: Push build information to Octopus Deploy 🐙
+        uses: OctopusDeploy/push-build-information-action@v1
+        with:
+          packages: ./package/Monday
+          version: ${{ env.PACKAGEVERSION }}
+          branch: 'main'
+          
+      - name: Create a release in Octopus Deploy 🐙
+        uses: OctopusDeploy/create-release-action@v2
+        with:
+          project: 'Integrations.Github Actions'
+          git_ref: 'main'
+
+
+      - name: Run a runbook in Octopus Deploy 🐙
+        uses: OctopusDeploy/run-runbook-action@v2
+        with:
+          environments: 'Test Environment'
+          project: 'Test Project'
+          runbook: 'Test Runbook'
