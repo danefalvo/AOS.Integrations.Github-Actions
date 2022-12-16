@@ -1,4 +1,4 @@
-name: Github Actions Area of Speciality
+name: Github Actions Area of Speciality (testing)
 
 env:
   OCTOPUS_API_KEY: ${{ secrets.OCTO_API_KEY }}
