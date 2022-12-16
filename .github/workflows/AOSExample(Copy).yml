@@ -4,8 +4,8 @@ env:
   OCTOPUS_API_KEY: ${{ secrets.OCTO_API_KEY }}
   OCTOPUS_HOST: ${{ secrets.OCTOPUS_HOST }}
   OCTOPUS_CLI_SERVER: ${{ secrets.OCTOPUS_HOST }}
-  PACKAGEVERSION: '3.0.3'
-  VERSION: '3.0.3'
+  PACKAGEVERSION: '3.0.4'
+  VERSION: '3.0.4'
   OCTOPUS_SPACE: 'Dane'      
   PACKAGENAME: 'Monday'
 
@@ -103,7 +103,7 @@ jobs:
           version: '*'
           
       - name: Push a package to Octopus Deploy 🐙
-        uses: OctopusDeploy/push-package-action@v2
+        uses: OctopusDeploy/push-package-action@v3
         with:
           packages: ./package/Monday.${{ env.PACKAGEVERSION }}.nupkg
           overwriteMode: OverwriteExisting
