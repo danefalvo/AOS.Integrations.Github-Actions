@@ -1,4 +1,4 @@
-name: Github Actions Area of Speciality (testing)
+name: Create a new release "Tentacle Ping"
 
 env:
   OCTOPUS_API_KEY: ${{ secrets.OCTO_API_KEY }}
@@ -36,7 +36,19 @@ jobs:
         with:
           fetch-depth: 0 # Required due to the way Git works, without it this action won't be able to find any or the correct tags
 
-      - name: Create a release in Octopus Deploy 🐙
+      - name: Create a release (Project Name) in Octopus Deploy 🐙
         uses: OctopusDeploy/create-release-action@v3
         with:
           project: 'Tentacle Ping'
+      
+      - name: Create a release (Project ID) in Octopus Deploy 🐙
+        uses: OctopusDeploy/create-release-action@v3
+        with:
+          project: 'Projects-1865'
+          
+      - name: Create a release (slug) in Octopus Deploy 🐙
+        uses: OctopusDeploy/create-release-action@v3
+        with:
+          project: 'tentacle-ping'
+          
+          
