@@ -1,0 +1,42 @@
+name: Github Actions Area of Speciality (testing)
+
+env:
+  OCTOPUS_API_KEY: ${{ secrets.OCTO_API_KEY }}
+  OCTOPUS_HOST: ${{ secrets.OCTOPUS_HOST }}
+  OCTOPUS_CLI_SERVER: ${{ secrets.OCTOPUS_HOST }}
+  OCTOPUS_URL: ${{ secrets.OCTOPUS_HOST }}
+  PACKAGEVERSION: '3.0.6.6'
+  VERSION: '3.0.6.6'
+  OCTOPUS_SPACE: 'Dane'      
+  PACKAGENAME: 'Monday'
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "trigger" ]
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    environment: AOS Example
+#    runs-on: ${{ matrix.os }}
+#    strategy:
+#      matrix:
+#        os: [ ubuntu-latest, windows-latest]
+    steps:
+    
+      - name: checkout_repository
+        uses: actions/checkout@v3
+      #  with:
+      #    version: 'latest'
+        with:
+          fetch-depth: 0 # Required due to the way Git works, without it this action won't be able to find any or the correct tags
+
+      - name: Create a release in Octopus Deploy 🐙
+        uses: OctopusDeploy/create-release-action@v3
+        with:
+          project: 'Tentacle Ping'
