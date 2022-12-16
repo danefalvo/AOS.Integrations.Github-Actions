@@ -97,16 +97,27 @@ jobs:
             - Second Change
           draft: false
           prerelease: false
+      - name: zip-files:
+        uses: vimtor/action-zip@v1
+        with:
+          files: ./package/ manifest.json
+          dest: ./package/result.${{ env.PACKAGEVERSION }}.zip
           
       - name: Install Octopus CLI 🐙
         uses: OctopusDeploy/install-octopus-cli-action@v1
         with:
           version: '*'
           
-      - name: Push a package to Octopus Deploy 🐙
+      - name: Push a NUGET package to Octopus Deploy 🐙
         uses: OctopusDeploy/push-package-action@v3
         with:
           packages: ./package/Monday.${{ env.PACKAGEVERSION }}.nupkg
+          overwrite_mode: OverwriteExisting
+          
+      - name: Push a ZIP package to Octopus Deploy 🐙
+        uses: OctopusDeploy/push-package-action@v3
+        with:
+          packages: ./package/Monday.${{ env.PACKAGEVERSION }}.zip
           overwrite_mode: OverwriteExisting
           
 
