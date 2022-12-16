@@ -4,7 +4,7 @@ env:
   OCTOPUS_API_KEY: ${{ secrets.OCTO_API_KEY }}
   OCTOPUS_HOST: ${{ secrets.OCTOPUS_HOST }}
   OCTOPUS_CLI_SERVER: ${{ secrets.OCTOPUS_HOST }}
-  PACKAGEVERSION: ${{ secrets.PACKAGEVERSION }}
+  PACKAGEVERSION: '3.0.0'
   VERSION: '3.0.0'
   OCTOPUS_SPACE: 'Dane'      
   PACKAGENAME: 'Monday'
