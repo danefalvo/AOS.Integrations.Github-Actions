@@ -5,8 +5,8 @@ env:
   OCTOPUS_HOST: ${{ secrets.OCTOPUS_HOST }}
   OCTOPUS_CLI_SERVER: ${{ secrets.OCTOPUS_HOST }}
   OCTOPUS_URL: ${{ secrets.OCTOPUS_HOST }}
-  PACKAGEVERSION: '3.0.6.4'
-  VERSION: '3.0.6.4'
+  PACKAGEVERSION: '3.0.6.5'
+  VERSION: '3.0.6.5'
   OCTOPUS_SPACE: 'Dane'      
   PACKAGENAME: 'Monday'
 
@@ -119,6 +119,12 @@ jobs:
         uses: OctopusDeploy/push-package-action@v3
         with:
           packages: ./package/result.${{ env.PACKAGEVERSION }}.zip
+          overwrite_mode: OverwriteExisting
+          
+      - name: Push a big ZIP package to Octopus Deploy 🐙
+        uses: OctopusDeploy/push-package-action@v3
+        with:
+          packages: ./package/CD1_track.1.1.1.zip
           overwrite_mode: OverwriteExisting
           
 
