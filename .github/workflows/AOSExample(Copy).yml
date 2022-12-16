@@ -5,7 +5,7 @@ env:
   OCTOPUS_HOST: ${{ secrets.OCTOPUS_HOST }}
   OCTOPUS_CLI_SERVER: ${{ secrets.OCTOPUS_HOST }}
   PACKAGEVERSION: ${{ secrets.PACKAGEVERSION }}
-  VERSION: ${{ secrets.PACKAGEVERSION }}
+  VERSION: '3.0.0'
   OCTOPUS_SPACE: 'Dane'      
   PACKAGENAME: 'Monday'
 
@@ -61,7 +61,7 @@ jobs:
           dotnet new console --name $PACKAGENAME
       - name: Pack
         #if: matrix.os == 'ubuntu-latest'
-        run: dotnet pack -v normal -c Release --no-restore --include-source -p:PackageVersion=2.0.0 ./$PACKAGENAME/*.csproj 
+        run: dotnet pack -v normal -c Release --no-restore --include-source -p:PackageVersion=${{ env.PACKAGEVERSION }} ./$PACKAGENAME/*.csproj 
       - name: Move Package
         run: |
           mkdir -p ./package/
