@@ -101,7 +101,7 @@ jobs:
       - name: zip-files
         uses: vimtor/action-zip@v1
         with:
-          files: ./package/ manifest.json
+          files: ./package/
           dest: ./package/result.${{ env.PACKAGEVERSION }}.zip
           
       - name: Install Octopus CLI 🐙
@@ -118,7 +118,7 @@ jobs:
       - name: Push a ZIP package to Octopus Deploy 🐙
         uses: OctopusDeploy/push-package-action@v3
         with:
-          packages: ./package/Monday.${{ env.PACKAGEVERSION }}.zip
+          packages: ./package/result.${{ env.PACKAGEVERSION }}.zip
           overwrite_mode: OverwriteExisting
           
 
