@@ -39,13 +39,13 @@ jobs:
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
         with:
           fallback: 1.0.0 # Optional fallback tag to use when no tag can be found
-      
-      - name: Get the version
-        id: get_version
-        run: |
-          version: ${{ steps.previoustag.outputs.tag }}
-          echo ${{ env.version }}
-          echo $version
+      #
+      #- name: Get the version
+      #  id: get_version
+      #  run: |
+      #    version: ${{ steps.previoustag.outputs.tag }}
+      #    echo ${{ env.version }}
+      #    echo $version
         #echo "name=VERSION::1.0.0" >> $GITHUB_STATE
           
       - name: Bump release version
