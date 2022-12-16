@@ -5,8 +5,8 @@ env:
   OCTOPUS_HOST: ${{ secrets.OCTOPUS_HOST }}
   OCTOPUS_CLI_SERVER: ${{ secrets.OCTOPUS_HOST }}
   OCTOPUS_URL: ${{ secrets.OCTOPUS_HOST }}
-  PACKAGEVERSION: '3.0.6.3'
-  VERSION: '3.0.6.3'
+  PACKAGEVERSION: '3.0.6.4'
+  VERSION: '3.0.6.4'
   OCTOPUS_SPACE: 'Dane'      
   PACKAGENAME: 'Monday'
 
