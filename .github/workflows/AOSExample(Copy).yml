@@ -107,7 +107,7 @@ jobs:
         uses: OctopusDeploy/push-package-action@v3
         with:
           packages: ./package/Monday.${{ env.PACKAGEVERSION }}.nupkg
-          overwriteMode: OverwriteExisting
+          overwrite_mode: OverwriteExisting
           
 
 
