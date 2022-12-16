@@ -4,8 +4,8 @@ env:
   OCTOPUS_API_KEY: ${{ secrets.OCTO_API_KEY }}
   OCTOPUS_HOST: ${{ secrets.OCTOPUS_HOST }}
   OCTOPUS_CLI_SERVER: ${{ secrets.OCTOPUS_HOST }}
-  PACKAGEVERSION: '3.0.0'
-  VERSION: '3.0.0'
+  PACKAGEVERSION: '3.0.1'
+  VERSION: '3.0.1'
   OCTOPUS_SPACE: 'Dane'      
   PACKAGENAME: 'Monday'
 
@@ -96,6 +96,13 @@ jobs:
             - Second Change
           draft: false
           prerelease: false
+          
+      - name: Push a package to Octopus Deploy 🐙
+        uses: OctopusDeploy/push-package-action@v2
+        with:
+          packages: ./package/Monday.${{ env.PACKAGEVERSION }}.nupkg
+          overwriteMode: OverwriteExisting
+          
 
 
   # This workflow contains multiple jobs starting with "push_a_package"
