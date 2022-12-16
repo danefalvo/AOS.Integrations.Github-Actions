@@ -97,6 +97,11 @@ jobs:
           draft: false
           prerelease: false
           
+      - name: Install Octopus CLI 🐙
+        uses: OctopusDeploy/install-octopus-cli-action@v1
+        with:
+          version: '*'
+          
       - name: Push a package to Octopus Deploy 🐙
         uses: OctopusDeploy/push-package-action@v2
         with:
