@@ -5,8 +5,8 @@ env:
   OCTOPUS_HOST: ${{ secrets.OCTOPUS_HOST }}
   OCTOPUS_CLI_SERVER: ${{ secrets.OCTOPUS_HOST }}
   OCTOPUS_URL: ${{ secrets.OCTOPUS_HOST }}
-  PACKAGEVERSION: '3.0.6.2'
-  VERSION: '3.0.6.2'
+  PACKAGEVERSION: '3.0.6.3'
+  VERSION: '3.0.6.3'
   OCTOPUS_SPACE: 'Dane'      
   PACKAGENAME: 'Monday'
 
@@ -97,7 +97,8 @@ jobs:
             - Second Change
           draft: false
           prerelease: false
-      - name: zip-files:
+      
+      - name: zip-files
         uses: vimtor/action-zip@v1
         with:
           files: ./package/ manifest.json
